@@ -1,3 +1,8 @@
+"""
+This module provides the main functionality of
+the gitmojify pre-commit hook.
+"""
+
 import argparse
 import re
 import sys
@@ -46,7 +51,17 @@ def gitmojify(message: str) -> str:
     if " " in gtype:  # maybe do a better check?
         return message
     icon = grouped_gitmojis()[gtype].icon
-    return f"{icon} {message}"
+    subject_start = match.start(3)
+    subject_end = match.end(3)
+
+    return "".join(
+        [
+            message[:subject_start],
+            f" {icon} ",
+            message[subject_start:subject_end].lstrip(),
+            message[subject_end:],
+        ]
+    )
 
 
 def run() -> None:

@@ -1,3 +1,7 @@
+"""
+This module contains utility functions to work with Gitmoji objects.
+"""
+
 from typing import List
 
 from shared.model import Gitmoji
@@ -5,14 +9,14 @@ from shared.spec import mojis
 
 # global pattern to validate commit messages
 PATTERN = (
-    # To explictly make . match new line
+    # To explicitly make . match new line
     r"(?s)"
-    # gitmoji and type
-    r"({type_group})"
+    #  type
+    r"({type})"
     # scope
     r"(\(\S+\))?!?:"
-    # subject
-    r"( [^\n\r]+)"
+    # gitmoji and subject
+    r"( {icon}(?=\s)| [^\n\r]+)"
     # body
     r"((\n\n.*)|(\s*))?$"
 )
@@ -23,12 +27,19 @@ def get_gitmojis() -> List[Gitmoji]:
     return [Gitmoji(**moji) for moji in mojis]
 
 
-def get_type_group_pattern() -> str:
-    """Return the type group pattern."""
-    return "|".join([f"({moji.icon} {{1,2}})?{moji.type}" for moji in get_gitmojis()])
+def get_type_pattern() -> str:
+    """Return the type patterns."""
+    return "|".join([moji.type for moji in get_gitmojis()])
+
+
+def get_icon_pattern() -> str:
+    """Return icon patterns."""
+    return "|".join([moji.icon for moji in get_gitmojis()])
 
 
 def get_pattern() -> str:
     """Return the complete validation pattern."""
-    type_group = get_type_group_pattern()
-    return PATTERN.format(type_group=type_group)
+    type_pattern = get_type_pattern()
+    icon_pattern = get_icon_pattern()
+
+    return PATTERN.replace("type", type_pattern).replace("icon", icon_pattern)

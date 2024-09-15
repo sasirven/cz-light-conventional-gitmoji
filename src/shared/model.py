@@ -1,7 +1,11 @@
-import attrs
+"""
+This module contains the Gitmoji class.
+"""
+
+from dataclasses import dataclass
 
 
-@attrs.define(frozen=True)
+@dataclass(frozen=True)
 class Gitmoji:
     """Class that represents a gitmoji."""
 
@@ -11,9 +15,9 @@ class Gitmoji:
     desc: str
 
     @property
-    def value(self) -> str:
+    def value(self) -> tuple[str, str]:
         """The value property."""
-        return f"{self.icon} {self.type}"
+        return self.type, self.icon
 
     @property
     def name(self) -> str:
