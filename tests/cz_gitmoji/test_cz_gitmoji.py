@@ -1,9 +1,17 @@
+"""
+This module contains tests for the cz_light_gitmoji module.
+"""
+
 from typing import Any, Dict, Optional, Tuple
 
 import pytest
 from commitizen.cz.exceptions import AnswerRequiredError
 
-from cz_light_gitmoji import CommitizenGitmojiCz, parse_scope, parse_subject
+from cz_light_gitmoji.main import (
+    CommitizenGitmojiCz,
+    parse_scope,
+    parse_subject,
+)
 from shared.spec import mojis
 
 
