@@ -9,7 +9,7 @@ jobs:
   python-check:
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
         platform: [ubuntu-latest, windows-latest]
       fail-fast: false
     runs-on: ${{ matrix.platform }}
@@ -71,4 +71,4 @@ jobs:
         uses: commitizen-tools/commitizen-action@master
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          extra_requirements: "cz-conventional-gitmoji"
+          extra_requirements: "cz-light-conventional-gitmoji"

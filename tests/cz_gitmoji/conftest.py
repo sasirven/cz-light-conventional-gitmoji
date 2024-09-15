@@ -4,7 +4,7 @@ import pytest
 from commitizen import defaults
 from commitizen.config import BaseConfig
 
-from cz_gitmoji.main import CommitizenGitmojiCz
+from cz_light_gitmoji import CommitizenGitmojiCz
 from shared.gitmojis import *
 
 
