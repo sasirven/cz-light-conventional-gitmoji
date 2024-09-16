@@ -7,8 +7,9 @@ import re
 import textwrap
 from collections import OrderedDict
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
+from commitizen import git
 from commitizen.cz.base import BaseCommitizen
 from commitizen.cz.utils import required_validator, multiple_line_breaker
 from commitizen.defaults import MAJOR, MINOR, PATCH
@@ -77,7 +78,7 @@ class CommitizenGitmojiCz(BaseCommitizen):
     commit_parser = (
         rf"^(?P<change_type>{utils.get_type_pattern()}|BREAKING CHANGE)"
         rf"(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)?:\s"
-        rf"(?P<message>{utils.get_icon_pattern()}\s.*)?"
+        rf"(?P<message>.*)?"
     )
     # exclude from changelog
     changelog_pattern = r"^(?!init)(?!merge)(?!bump).*"
@@ -86,8 +87,8 @@ class CommitizenGitmojiCz(BaseCommitizen):
         # features
         "feat": f"{mojis.GJ_FEAT.value} Features",
         # fixes
-        "fix": f"{mojis.GJ_FIX.value} Fixes",
-        "hotfix": f"{mojis.GJ_HOTFIX.value} Fixes",
+        "fix": f"{mojis.GJ_FIX.value}{mojis.GJ_HOTFIX.value} Fixes",
+        "hotfix": f"{mojis.GJ_FIX.value}{mojis.GJ_HOTFIX.value} Fixes",
         # refactorings
         "refactor": f"{mojis.GJ_REFACTOR.value} Refactorings",
         # style & architecture
@@ -99,22 +100,34 @@ class CommitizenGitmojiCz(BaseCommitizen):
         # tests
         "test": f"{mojis.GJ_TEST.value} Tests",
         # ci & build
-        "build": f"{mojis.GJ_BUILD.value} Build",
-        "ci": f"{mojis.GJ_CI.value}{mojis.GJ_BUILD.value} CI",
+        "build": f"{mojis.GJ_CI.value}{mojis.GJ_BUILD.value} CI & Build",
+        "ci": f"{mojis.GJ_CI.value}{mojis.GJ_BUILD.value} CI & Build",
         # configuration & scripts & packages
         "config": f"{mojis.GJ_CONFIG.value} Configuration, Scripts, Packages",
         # cleanup
         "dump": f"{mojis.GJ_DUMP.value} Clean up",
         # dependencies
-        "dep-add": f"{mojis.GJ_DEP_ADD.value} Dependencies",
-        "dep-rm": f"{mojis.GJ_DEP_RM.value} Dependencies",
-        "dep-bump": f"{mojis.GJ_DEP_BUMP.value} Dependencies",
-        "dep-drop": f"{mojis.GJ_DEP_DROP.value} Dependencies",
+        "dep-add": (
+            f"{mojis.GJ_DEP_ADD.value}{mojis.GJ_DEP_RM.value}"
+            f"{mojis.GJ_DEP_BUMP.value}{mojis.GJ_DEP_DROP.value} Dependencies"
+        ),
+        "dep-rm": (
+            f"{mojis.GJ_DEP_ADD.value}{mojis.GJ_DEP_RM.value}"
+            f"{mojis.GJ_DEP_BUMP.value}{mojis.GJ_DEP_DROP.value} Dependencies"
+        ),
+        "dep-bump": (
+            f"{mojis.GJ_DEP_ADD.value}{mojis.GJ_DEP_RM.value}"
+            f"{mojis.GJ_DEP_BUMP.value}{mojis.GJ_DEP_DROP.value} Dependencies"
+        ),
+        "dep-drop": (
+            f"{mojis.GJ_DEP_ADD.value}{mojis.GJ_DEP_RM.value}"
+            f"{mojis.GJ_DEP_BUMP.value}{mojis.GJ_DEP_DROP.value} Dependencies"
+        ),
         # language & accessibility
         "lang": f"{mojis.GJ_LANG.value} Language & Accessibility",
         # logs
-        "logs-add": f"{mojis.GJ_LOGS_ADD.value} Logs",
-        "logs-rm": f"{mojis.GJ_LOGS_RM.value} Logs",
+        "logs-add": f"{mojis.GJ_LOGS_ADD.value}{mojis.GJ_LOGS_RM.value} Logs",
+        "logs-rm": f"{mojis.GJ_LOGS_ADD.value}{mojis.GJ_LOGS_RM.value} Logs",
         # ignore
         "ignore": f"{mojis.GJ_IGNORE.value} Ignore",
         # None: init, bump, merge
@@ -127,6 +140,23 @@ class CommitizenGitmojiCz(BaseCommitizen):
         f"{mojis.GJ_REFACTOR.value} Refactorings",
         f"{mojis.GJ_PERF.value} Performance",
     ]
+    # message to bump version
+    bump_message = "bump(release): 🔖 $current_version → $new_version"
+
+    
+    def changelog_message_builder_hook(self,
+        parsed_message: dict, _: git.GitCommit
+    ) -> Union[dict, list, None]:
+        """Hook to build the changelog message.
+        :param parsed_message: The parsed commit message
+        :param _: The commit object
+        :return: The changelog message
+        """
+        first_char = parsed_message["message"][0]
+        if first_char in [moji.value[1] for moji in utils.get_gitmojis()]:
+            parsed_message["message"] = parsed_message["message"][1:].lstrip()
+
+        return parsed_message
 
     def questions(self) -> List[Dict[str, Any]]:
         """Return the questions to ask the user."""
