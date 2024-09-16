@@ -41,7 +41,10 @@ def parse_bordy(text: str) -> str:
     """Process the text using multiple_line_breaker and then soft-wrap it."""
     processed_text = multiple_line_breaker(text)
 
-    return "\n".join(textwrap.wrap(processed_text, width=72))
+    return "\n".join(
+        "\n".join(textwrap.wrap(line, width=72))
+        for line in processed_text.splitlines()
+    )
 
 
 class CommitizenGitmojiCz(BaseCommitizen):
