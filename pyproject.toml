@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "cz-light-conventional-gitmoji"
-version = "0.1.0"
+version = "0.2.0"
 description = "A commitizen plugin that combines gitmoji and conventional commits in a lightweight way."
-authors = ["ljnsn <82611987+ljnsn@users.noreply.github.com>"]
+authors = ["sasirven <77392535+sasirven@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [
@@ -33,7 +33,7 @@ pylint = ">=3.2.7"
 pylint-pytest = ">=1.1.8"
 
 [tool.commitizen]
-name = "cz_gitmoji"
+name = "cz_light_gitmoji"
 tag_format = "$version"
 version_scheme = "semver"
 version_provider = "poetry"
