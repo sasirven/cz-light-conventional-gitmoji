@@ -13,6 +13,7 @@ from commitizen import git
 from commitizen.cz.base import BaseCommitizen
 from commitizen.cz.utils import required_validator, multiple_line_breaker
 from commitizen.defaults import MAJOR, MINOR, PATCH
+import commitizen.defaults
 
 from shared import utils
 from shared.gitmojis import GitMojiConstant as mojis
@@ -144,11 +145,12 @@ class CommitizenGitmojiCz(BaseCommitizen):
         f"{mojis.GJ_PERF.value} Performance",
     ]
     # message to bump version
-    bump_message = "bump(release): 🔖 $current_version → $new_version"
+    commitizen.defaults.bump_message = (
+        "bump(release): 🔖 $current_version → $new_version"
+    )
 
-    
-    def changelog_message_builder_hook(self,
-        parsed_message: dict, _: git.GitCommit
+    def changelog_message_builder_hook(
+        self, parsed_message: dict, _: git.GitCommit
     ) -> Union[dict, list, None]:
         """Hook to build the changelog message.
         :param parsed_message: The parsed commit message
