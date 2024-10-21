@@ -1,3 +1,13 @@
+## 0.3.0 (2024-10-21)
+
+### ✨ Features
+
+- **changelog**: add the chore section
+
+### 🐛🚑️ Fixes
+
+- **pattern**: update the regex
+
 ## 0.2.3 (2024-09-19)
 
 ### 🐛🚑️ Fixes
