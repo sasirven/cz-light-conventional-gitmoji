@@ -82,6 +82,7 @@ class CommitizenGitmojiCz(BaseCommitizen):
     commit_parser = (
         rf"^(?P<change_type>{utils.get_type_pattern()}|BREAKING CHANGE)"
         rf"(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)?:\s"
+        rf"(?P<emoji>{utils.get_icon_pattern()})?\s?"
         rf"(?P<message>.*)?"
     )
     # exclude from changelog
@@ -159,9 +160,12 @@ class CommitizenGitmojiCz(BaseCommitizen):
         :param _: The commit object
         :return: The changelog message
         """
-        first_char = parsed_message["message"][0]
-        if first_char in [moji.value[1] for moji in utils.get_gitmojis()]:
-            parsed_message["message"] = parsed_message["message"][1:].lstrip()
+        if "emoji" in parsed_message and parsed_message["emoji"]:
+            parsed_message["message"] = (
+                parsed_message["message"]
+                .lstrip(parsed_message["emoji"])
+                .lstrip()
+            )
 
         return parsed_message
 
