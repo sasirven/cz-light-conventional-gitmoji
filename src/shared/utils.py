@@ -12,13 +12,13 @@ PATTERN = (
     # To explicitly make . match new line
     r"(?s)"
     #  type
-    r"({type})"
+    r"^({type})"
     # scope
-    r"(\(\S+\))?!?:"
+    r"(?:\((\S+)\))?!?: "
     # gitmoji and subject
-    r"( {icon}(?=\s)| [^\n\r]+)"
+    r"(({icon}) (?![\sA-Z])([^\n\r]+)(?<!\s))"
     # body
-    r"((\n\n.*)|(\s*))?$"
+    r"(?:\r?\n\r?\n(?!\s)(.+)(?<!\s))?$"
 )
 
 
@@ -42,4 +42,6 @@ def get_pattern() -> str:
     type_pattern = get_type_pattern()
     icon_pattern = get_icon_pattern()
 
-    return PATTERN.replace("type", type_pattern).replace("icon", icon_pattern)
+    return PATTERN.replace("{type}", type_pattern).replace(
+        "{icon}", icon_pattern
+    )
