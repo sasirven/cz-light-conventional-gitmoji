@@ -134,6 +134,8 @@ class CommitizenGitmojiCz(BaseCommitizen):
         "logs-rm": f"{mojis.GJ_LOGS_ADD.value}{mojis.GJ_LOGS_RM.value} Logs",
         # ignore
         "ignore": f"{mojis.GJ_IGNORE.value} Ignore",
+        # chore
+        "chore": f"{mojis.GJ_CHORE.value} Chore",
         # None: init, bump, merge
     }
     # Order sections in changelog
