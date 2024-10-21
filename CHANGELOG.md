@@ -1,3 +1,13 @@
+## 0.3.1 (2024-10-21)
+
+### 🐛🚑️ Fixes
+
+- **changelog**: update the regex and message builder
+
+### ♻️ Refactorings
+
+- test
+
 ## 0.3.0 (2024-10-21)
 
 ### ✨ Features
