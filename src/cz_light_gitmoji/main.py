@@ -168,7 +168,7 @@ class CommitizenGitmojiCz(BaseCommitizen):
         f"{Mojis.GJ_PERF.value} Performance",
     ]
     # message to bump version
-    commitizen.defaults.bump_message = (
+    commitizen.defaults.BUMP_MESSAGE = (
         "bump(release): 🔖 $current_version → $new_version"
     )
 
