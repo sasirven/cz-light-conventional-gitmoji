@@ -35,9 +35,9 @@ def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
         # answers, expected
         (
             {
-                "prefix": "docs",
+                "prefix": ("docs", f"{Mojis.GJ_DOCS.value}"),
                 "scope": "models",
-                "subject": f"{mojis.GJ_DOCS.value} person was undocumented",
+                "subject": "person was undocumented",
                 "body": (
                     "When no plant of the field was yet in "
                     "the image of God he created them; "
@@ -46,28 +46,28 @@ def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
                 "is_breaking_change": False,
                 "footer": "",
             },
-            f"docs(models): {mojis.GJ_DOCS.value} person was undocumented\n\n"
-            f"When no plant of the field was yet in the image of God "
-            f"he created them; male and female he created them.",
+            f"docs(models): {Mojis.GJ_DOCS.value} person was undocumented\n\n"
+            "When no plant of the field was yet in the image of God "
+            "he created them; male and female he created them.",
         ),
         (
             {
-                "prefix": "refactor",
+                "prefix": ("refactor", f"{Mojis.GJ_REFACTOR.value}"),
                 "scope": "dto",
-                "subject": f"{mojis.GJ_REFACTOR.value} bla bla",
+                "subject": "bla bla",
                 "body": "The woman said to him, Where are you?",
                 "is_breaking_change": True,
                 "footer": "BREAKING CHANGE: this breaks stuff",
             },
-            f"refactor(dto)!: {mojis.GJ_REFACTOR.value} bla bla\n\n"
-            f"The woman said to him, Where are you?"
-            f"\n\nBREAKING CHANGE: this breaks stuff",
+            f"refactor(dto)!: {Mojis.GJ_REFACTOR.value} bla bla\n\n"
+            "The woman said to him, Where are you?"
+            "\n\nBREAKING CHANGE: this breaks stuff",
         ),
         (
             {
-                "prefix": "test",
+                "prefix": ("test", f"{Mojis.GJ_TEST.value}"),
                 "scope": "controllers",
-                "subject": f"{mojis.GJ_TEST.value} xpto",
+                "subject": "xpto",
                 "body": (
                     "So out of the heavens and the earth and the woman, "
                     "and between your offspring and hers; "
@@ -76,15 +76,15 @@ def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
                 "is_breaking_change": True,
                 "footer": "",
             },
-            f"test(controllers)!: {mojis.GJ_TEST.value} xpto\n\n"
-            f"So out of the heavens and the earth and the woman, "
-            f"and between your offspring and hers; he will strike his heel.",
+            f"test(controllers)!: {Mojis.GJ_TEST.value} xpto\n\n"
+            "So out of the heavens and the earth and the woman, "
+            "and between your offspring and hers; he will strike his heel.",
         ),
         (
             {
-                "prefix": "build",
+                "prefix": ("build", f"{Mojis.GJ_BUILD.value}"),
                 "scope": "docker",
-                "subject": f"{mojis.GJ_BUILD.value} xpto",
+                "subject": "xpto",
                 "body": (
                     "He drove out the man; and at the east of the garden "
                     "at the time of the evening breeze, "
@@ -96,12 +96,12 @@ def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
                 "is_breaking_change": False,
                 "footer": "Ref: #1111, #1112, #1113",
             },
-            f"build(docker): {mojis.GJ_BUILD.value} xpto\n\n"
-            f"He drove out the man; and at the east of the garden at "
-            f"the time of the evening breeze, and the man and put him in "
-            f"the garden of Eden, to till the ground the LORD God walking in "
-            f"the image of God he created them; "
-            f"male and female he created them.\n\nRef: #1111, #1112, #1113",
+            f"build(docker): {Mojis.GJ_BUILD.value} xpto\n\n"
+            "He drove out the man; and at the east of the garden at "
+            "the time of the evening breeze, and the man and put him in "
+            "the garden of Eden, to till the ground the LORD God walking in "
+            "the image of God he created them; "
+            "male and female he created them.\n\nRef: #1111, #1112, #1113",
         ),
     ]
 )
