@@ -27,9 +27,11 @@ packages = [
 [dependency-groups]
   dev = [
   "black>=24.8.0",
+  "coverage[toml]>=7.6.1",
+  "pyright>=1.1.402",
   "pytest>=8.2.0",
   "pytest-cov>=5.0.0",
-  "coverage[toml]>=7.6.1",
+  "ruff>=0.11.13",
 ]
 
 
@@ -47,8 +49,83 @@ version_provider = "pep621"
 update_changelog_on_bump = true
 
 [tool.black]
-target-version = ["py39", "py310", "py311", "py312"]
+preview = true
+skip-magic-trailing-comma = true
 line-length = 79
+
+# ruff
+[tool.ruff]
+preview = true
+show-fixes = true
+unsafe-fixes = true
+src = ["src", "tests"]
+line-length = 79
+
+[tool.ruff.analyze]
+preview = true
+
+[tool.ruff.format]
+preview = true
+skip-magic-trailing-comma = true
+docstring-code-format = true
+docstring-code-line-length = 72
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "ALL",
+    "D213", # Force the use of this rule even with the "pep257" pydocstyle convention.
+    "D404", # Force the use of this rule even with the "pep257" pydocstyle convention.
+]
+ignore = [
+    "COM812", # Ignored because cause conflict with Ruff format xor Black.
+    "CPY001", # Ignored because the copyright header is not mandatory.
+    "RUF028", # Still in preview and not stable for now.
+    "DOC", # DOC rules are ignored for now because Ruff doesn't support Sphinx (ReST) docstrings.
+    "PLC2701", # Ignored because Pyright is already checking for this.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "INP001", # Ignored because pytest does not recommend having __init__.py in the "tests" folder.
+    "S101", # Ignored because we can use "assert" in tests.
+    "ARG001", # Ignored because of pytest fixtures.
+    "FBT001", # Ignored because of in tests methods we can use boolean withtout explicitly use keyword argument.
+]
+
+[tool.ruff.lint.flake8-bandit]
+check-typed-exception = true
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 72
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.pylint]
+max-args = 12
+max-positional-args = 6
+
+# pyright
+[tool.pyright]
+pythonVersion = "3.9"
+pythonPlatform = "All"
+src = ["src", "tests"]
+strict = ["src", "tests"]
+typeCheckingMode = "strict"
+deprecateTypingAliases = true
+reportPropertyTypeMismatch = "error"
+reportUninitializedInstanceVariable = "warning"
+reportImplicitOverride = "warning"
+reportImportCycles = "warning"
+reportShadowedImports = "warning"
+reportUnusedCallResult = "information"
+reportMissingSuperCall = "information"
+reportCallInDefaultInitializer = "information"
+reportUnnecessaryTypeIgnoreComment = "information"
 
 [tool.coverage.run]
 branch = true
