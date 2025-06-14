@@ -139,14 +139,26 @@ fail_under = 80
 precision = 1
 show_missing = true
 exclude_lines = [
-  'if __name__ == "__main__":'
+    'if __name__ == "__main__":',
+    'pragma: no cover',
+    'if TYPE_CHECKING:',
 ]
 
 [tool.coverage.xml]
 output = "reports/coverage.xml"
 
 [tool.pytest.ini_options]
-addopts = """--color=yes --doctest-modules --exitfirst --failed-first \
-  --strict-markers --strict-config --verbosity=2 \
-  --junitxml=reports/pytest.xml --cov"""
+addopts = [
+    "--cov-branch",
+    "--import-mode=importlib",
+    "--color=yes",
+    "--doctest-modules",
+    "--exitfirst",
+    "--failed-first",
+    "--strict-markers",
+    "--strict-config",
+    "--verbosity=2",
+    "--junitxml=reports/pytest.xml",
+    "--cov"
+]
 testpaths = ["src", "tests"]
