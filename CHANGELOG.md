@@ -1,3 +1,26 @@
+## 0.3.2 (2025-06-14)
+
+### 🐛🚑️ Fixes
+
+- **commitizen**: update bump message constant to follow naming conventions
+- **mojify**: fix the regex pattern
+- **test**: update test data to match the new format
+
+### ➕➖⬆️⬇️ Dependencies
+
+- **pyproject**: update all dependencies and dev dependencies
+- **pyproject**: add ruff and pyright
+- **pyproject**: remove mypy and pylint
+
+### 🎨 Style & Architecture
+
+- **lint**: apply all linters to the project
+
+### 🔧 Configuration, Scripts, Packages
+
+- **pyproject**: update pytest and coverage config
+- **pyproject**: switch to uv
+
 ## 0.3.1 (2024-10-21)
 
 ### 🐛🚑️ Fixes
