@@ -1,6 +1,4 @@
-"""
-This module contains the Gitmoji class.
-"""
+"""Contains the Gitmoji class."""
 
 from dataclasses import dataclass
 

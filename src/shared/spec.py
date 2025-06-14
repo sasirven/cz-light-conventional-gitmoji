@@ -1,9 +1,6 @@
-"""
-This module contains the Gitmoji class.
-"""
+"""Contains the Gitmoji class."""
 
 from shared.gitmojis import GitMojiConstant
-
 
 mojis = [
     {

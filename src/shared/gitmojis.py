@@ -1,6 +1,4 @@
-"""
-This module contains the Gitmoji constants.
-"""
+"""Contains the Gitmoji constants."""
 
 from enum import Enum
 

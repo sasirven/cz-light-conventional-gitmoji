@@ -1,31 +1,31 @@
-"""
-This module is a conftest.py file that contains the fixtures for
-the tests in the tests/cz_gitmoji/test_cz_gitmoji.py file
-"""
+"""Conftest to store global fixtures for the tests."""
 
 from typing import Any
 
 import pytest
+from _pytest.fixtures import SubRequest
 from commitizen import defaults
-from commitizen.config import BaseConfig
+from commitizen.config.base_config import BaseConfig
 
 from cz_light_gitmoji.main import CommitizenGitmojiCz
-from shared.gitmojis import GitMojiConstant as mojis
+from shared.gitmojis import GitMojiConstant as Mojis
 
 
-@pytest.fixture()
+@pytest.fixture
 def config() -> BaseConfig:
     """Return a BaseConfig instance with the default settings."""
-    _config = BaseConfig()
-    _config.settings.update({"name": defaults.name})
-    return _config
+    config_ = BaseConfig()
+    config_.settings.update({"name": defaults.name})
+    return config_
 
 
-@pytest.fixture()
+@pytest.fixture
 def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
-    """Return a CommitizenGitmojiCz instance.
+    """
+    Return a CommitizenGitmojiCz instance.
+
     :param config: BaseConfig instance from the config fixture
-    :type config: BaseConfig
+    :type config: BaseConfig.
     """
     return CommitizenGitmojiCz(config)
 
@@ -105,6 +105,11 @@ def cz_gitmoji(config: BaseConfig) -> CommitizenGitmojiCz:
         ),
     ]
 )
-def messages(request: Any):
-    """Return a tuple with answers and the expected commit message."""
+def messages(request: SubRequest) -> tuple[dict[str, Any], str]:
+    """
+    Return a tuple with answers and the expected commit message.
+
+    :param request: pytest fixture request object
+    :return: tuple with answers and expected commit message
+    """
     return request.param

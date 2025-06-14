@@ -1,8 +1,6 @@
-"""
-This module contains utility functions to work with Gitmoji objects.
-"""
+"""Contains utility functions to work with Gitmoji objects."""
 
-from typing import List
+from typing_extensions import LiteralString
 
 from shared.model import Gitmoji
 from shared.spec import mojis
@@ -22,7 +20,7 @@ PATTERN = (
 )
 
 
-def get_gitmojis() -> List[Gitmoji]:
+def get_gitmojis() -> list[Gitmoji]:
     """Return the list of Gitmoji objects."""
     return [Gitmoji(**moji) for moji in mojis]
 

@@ -1,8 +1,8 @@
-"""
-This module contains tests for the cz_light_gitmoji module.
-"""
+"""Contains tests for the cz_light_gitmoji module."""
 
-from typing import Any, Dict, Optional, Tuple
+from __future__ import annotations
+
+from typing import Any
 
 import pytest
 from commitizen.cz.exceptions import AnswerRequiredError
@@ -16,7 +16,7 @@ from shared.spec import mojis
 
 
 @pytest.mark.parametrize(
-    ["scope", "expected"],
+    ("scope", "expected"),
     [
         ("main", "main"),
         ("BaseConfig", "BaseConfig"),
@@ -30,7 +30,7 @@ def test_parse_scope(scope: str, expected: str) -> None:
 
 
 @pytest.mark.parametrize(
-    ["text", "expected"],
+    ("text", "expected"),
     [
         ("a subject", "a subject"),
         ("subject", "subject"),
@@ -44,9 +44,9 @@ def test_parse_subject(text: str, expected: str) -> None:
 
 
 @pytest.mark.parametrize("text", ["", None])
-def test_missing_subject(text: Optional[str]) -> None:
+def test_missing_subject(text: str | None) -> None:
     """Verify that an empty subject raises an error."""
-    with pytest.raises(AnswerRequiredError, match="Subject is required."):
+    with pytest.raises(AnswerRequiredError, match=r"Subject is required."):
         parse_subject(text)  # type: ignore[arg-type]
 
 
@@ -54,13 +54,17 @@ def test_questions(cz_gitmoji: CommitizenGitmojiCz) -> None:
     """Verify questions are as expected."""
     questions = cz_gitmoji.questions()
     assert isinstance(questions, list)
-    assert isinstance(questions[0], dict)
-    assert len(questions[0]["choices"]) == len(mojis)
+
+    list_question = questions[0]
+    assert isinstance(list_question, dict)
+
+    choices = list_question.get("choices")
+    assert choices is not None
+    assert len(choices) == len(mojis)
 
 
 def test_message(
-    cz_gitmoji: CommitizenGitmojiCz,
-    messages: Tuple[Dict[str, Any], str],
+    cz_gitmoji: CommitizenGitmojiCz, messages: tuple[dict[str, Any], str]
 ) -> None:
     """Verify the correct commit messages are created from answers."""
     answers, expected = messages

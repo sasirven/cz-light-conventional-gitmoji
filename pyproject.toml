@@ -84,6 +84,7 @@ ignore = [
     "DOC", # DOC rules are ignored for now because Ruff doesn't support Sphinx (ReST) docstrings.
     "PLC2701", # Ignored because Pyright is already checking for this.
 ]
+allowed-confusables = ["➖", "➕"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [

@@ -1,16 +1,12 @@
-"""
-This module provides the main functionality of
-the gitmojify pre-commit hook.
-"""
+"""Main functionality for the gitmojify pre-commit hook."""
 
 import argparse
 import re
 import sys
 from pathlib import Path
-from typing import Dict
 
 from shared.model import Gitmoji
-from shared.utils import get_gitmojis, get_pattern
+from shared.utils import get_gitmojis, get_pattern_mojify
 
 UTF8 = "utf-8"
 
@@ -19,12 +15,12 @@ def get_args() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("-f", "--commit-msg-file")
-    group.add_argument("-m", "--message")
+    _ = group.add_argument("-f", "--commit-msg-file")
+    _ = group.add_argument("-m", "--message")
     return parser.parse_args()
 
 
-def grouped_gitmojis() -> Dict[str, Gitmoji]:
+def grouped_gitmojis() -> dict[str, Gitmoji]:
     """Return the gitmojis grouped by type."""
     return {moji.type: moji for moji in get_gitmojis()}
 
@@ -33,8 +29,9 @@ def gitmojify(message: str) -> str:
     """
     Gitmojify the commit message.
 
-    If a gitmoji is already present in the message, the message is returned
-    as is. Otherwise, the gitmoji is looked up by type and is prepended to
+    If a gitmoji is already present in the message,
+    the message is returned as is.
+    Otherwise, the gitmoji is looked up by type and prepends
     the message.
 
     Args:
@@ -43,10 +40,11 @@ def gitmojify(message: str) -> str:
     Returns:
         The gitmojified message.
     """
-    pat = re.compile(get_pattern())
+    pat = re.compile(get_pattern_mojify())
     match = pat.match(message)
     if match is None:
-        raise ValueError("invalid commit message")
+        msg = "invalid commit message"
+        raise ValueError(msg)
     gtype = match.group(1)
     if " " in gtype:  # maybe do a better check?
         return message
@@ -57,7 +55,7 @@ def gitmojify(message: str) -> str:
     return "".join(
         [
             message[:subject_start],
-            f" {icon} ",
+            f"{icon} ",
             message[subject_start:subject_end].lstrip(),
             message[subject_end:],
         ]
@@ -65,16 +63,15 @@ def gitmojify(message: str) -> str:
 
 
 def run() -> None:
-    """The pre-commit hook that modifies the commit message."""
+    """Modify the commit message."""
     args = get_args()
     if args.commit_msg_file:
         filepath = Path(args.commit_msg_file)
-        # TODO: commit message file encoding can be set via git config
         # key 'i18n.commitEncoding' and defaults to UTF-8, get encoding
         # from there.
         msg = filepath.read_text(encoding=UTF8)
         with filepath.open("w", encoding=UTF8) as f:
-            f.write(gitmojify(msg))
+            _ = f.write(gitmojify(msg))
     else:
         msg = args.message
-        sys.stdout.write(gitmojify(msg))
+        _ = sys.stdout.write(gitmojify(msg))

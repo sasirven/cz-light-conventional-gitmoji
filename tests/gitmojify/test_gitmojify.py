@@ -1,17 +1,19 @@
-"""
-This module tests the `mojify` module in the `gitmojify` package.
-"""
+"""Test the `mojify` module in the `gitmojify` package."""
+
+from __future__ import annotations
 
 import re
-from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
 
 from gitmojify import mojify
-from shared.gitmojis import GitMojiConstant as mojisicon
+from shared.gitmojis import GitMojiConstant as Mojisicon
 from shared.spec import mojis
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_grouped_gitmojis() -> None:
@@ -22,26 +24,26 @@ def test_grouped_gitmojis() -> None:
 
 
 @pytest.mark.parametrize(
-    ["message_in", "message_out"],
+    ("message_in", "message_out"),
     [
         (
             "feat: some new feature",
-            f"feat: {mojisicon.GJ_FEAT.value} some new feature",
+            f"feat: {Mojisicon.GJ_FEAT.value} some new feature",
         ),
         (
             "docs(readme): add a section",
-            f"docs(readme): {mojisicon.GJ_DOCS.value} add a section",
+            f"docs(readme): {Mojisicon.GJ_DOCS.value} add a section",
         ),
         (
             "refactor(FooClass)!: rename foo.bar -> foo.baz\n\n"
             "BREAKING CHANGE: this breaks stuff",
-            f"refactor(FooClass)!: {mojisicon.GJ_REFACTOR.value} "
+            f"refactor(FooClass)!: {Mojisicon.GJ_REFACTOR.value} "
             f"rename foo.bar -> foo.baz\n\nBREAKING CHANGE: this breaks stuff",
         ),
         (
             "test(foo-tests): add some tests for foo\n\n"
             "Add new tests for foo.bar and foo.baz.",
-            f"test(foo-tests): {mojisicon.GJ_TEST.value} "
+            f"test(foo-tests): {Mojisicon.GJ_TEST.value} "
             f"add some tests for foo\n\n"
             f"Add new tests for foo.bar and foo.baz.",
         ),
@@ -59,25 +61,26 @@ def fixture_message() -> str:
 
 
 @pytest.fixture(name="modified_message")
-def fixture_modified_message(message: str) -> Optional[str]:
+def fixture_modified_message(message: str) -> str | None:
     """Return the modified commit message or None if not matched."""
     pattern = re.compile(r"([a-zA-Z]+)(\(\S+\))?!?:")
     match = pattern.match(message)
     if match:
         gtype = match.group(1)
-        scope = match.group(2) if match.group(2) else ""
+        scope = match.group(2) or ""
         return (
-            f"{gtype}{scope}: {mojisicon.GJ_FEAT.value}{message[match.end():]}"
+            f"{gtype}{scope}: "
+            f"{Mojisicon.GJ_FEAT.value}{message[match.end() :]}"
         )
     return None
 
 
 def test_run_file(
-    tmp_path: Path, message: str, modified_message: Optional[str]
+    tmp_path: Path, message: str, modified_message: str | None
 ) -> None:
     """Verify the commit message is modified."""
     filepath = tmp_path / "commit-msg"
-    filepath.write_text(message)
+    _ = filepath.write_text(message)
     with mock.patch(
         "argparse.ArgumentParser.parse_args",
         return_value=mock.MagicMock(
@@ -89,12 +92,13 @@ def test_run_file(
     if modified_message:
         assert filepath.read_text(encoding="utf-8") == modified_message
     else:
-        assert False, "Message format is invalid"
+        msg = "Message format is invalid"
+        raise AssertionError(msg)
 
 
 def test_run_message(
     message: str,
-    modified_message: Optional[str],
+    modified_message: str | None,
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     """Verify the commit message is modified."""
