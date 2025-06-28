@@ -1,3 +1,9 @@
+## 0.3.3 (2025-06-28)
+
+### 🐛🚑️ Fixes
+
+- **dependencies**: add typing-extensions for Python 3.11+
+
 ## 0.3.2 (2025-06-14)
 
 ### 🐛🚑️ Fixes
