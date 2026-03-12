@@ -1,3 +1,13 @@
+## 0.4.0 (2026-03-12)
+
+### ✨ Features
+
+- **cz-type**: add revert option
+
+### ➕➖⬆️⬇️ Dependencies
+
+- **pyproject**: upgrade all deps
+
 ## 0.3.3 (2025-06-28)
 
 ### 🐛🚑️ Fixes
