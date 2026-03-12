@@ -155,6 +155,8 @@ class CommitizenGitmojiCz(BaseCommitizen):
         "logs-rm": f"{Mojis.GJ_LOGS_ADD.value}{Mojis.GJ_LOGS_RM.value} Logs",
         # ignore
         "ignore": f"{Mojis.GJ_IGNORE.value} Ignore",
+        # Revert
+        "revert": f"{Mojis.GJ_REVERT.value} Revert",
         # chore
         "chore": f"{Mojis.GJ_CHORE.value} Chore",
         # None: init, bump, merge
@@ -192,7 +194,7 @@ class CommitizenGitmojiCz(BaseCommitizen):
         return message
 
     @override
-    def questions(self) -> Iterable[CzQuestion]:
+    def questions(self) -> list[CzQuestion]:
         """Return the questions to ask the user."""
         return [
             {  # pyright: ignore [reportReturnType]

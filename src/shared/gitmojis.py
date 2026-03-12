@@ -9,6 +9,7 @@ class GitMojiConstant(Enum):
     """Enum class for Gitmojis."""
 
     GJ_FIX = "🐛"
+    GJ_REVERT = "⏪️"
     GJ_FEAT = "✨"
     GJ_DOCS = "📝"
     GJ_STYLE = "🎨"

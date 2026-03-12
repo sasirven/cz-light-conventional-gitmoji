@@ -10,6 +10,12 @@ mojis = [
         "desc": "Fix a bug.",
     },
     {
+        "type": "revert",
+        "icon": GitMojiConstant.GJ_REVERT.value,
+        "code": ":rewind:",
+        "desc": "Revert changes.",
+    },
+    {
         "type": "feat",
         "icon": GitMojiConstant.GJ_FEAT.value,
         "code": ":sparkles:",
