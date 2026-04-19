@@ -80,7 +80,8 @@ class CommitizenGitmojiCz(BaseCommitizen):
         r"|fix"
         r"|hotfix"
         r"|refactor"
-        r"|perf)"
+        r"|perf"
+        r"|dep-bump)"
         r"(\(.+\))?"  # scope
         r"!?):"  # breaking
     )
@@ -94,6 +95,7 @@ class CommitizenGitmojiCz(BaseCommitizen):
             (r"^hotfix", PATCH),
             (r"^refactor", PATCH),
             (r"^perf", PATCH),
+            (r"^dep-bump", PATCH),
         )
     )
     bump_map_major_version_zero = bump_map.copy()
