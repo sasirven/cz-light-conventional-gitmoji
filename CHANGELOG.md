@@ -1,3 +1,18 @@
+## 0.5.0 (2026-04-19)
+
+### ✨ Features
+
+- **bump_map**: add dep-bump type
+
+### ➕➖⬆️⬇️ Dependencies
+
+- **pyproject**: upgrade all deps
+
+### 🔧 Configuration, Scripts, Packages
+
+- **comitizien**: switch version provider to uv
+- **python**: change minimum python version to 3.10
+
 ## 0.4.0 (2026-03-12)
 
 ### ✨ Features

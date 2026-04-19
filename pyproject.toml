@@ -1,6 +1,6 @@
 [project]
 name = "cz-light-conventional-gitmoji"
-version = "0.4.0"
+version = "0.5.0"
 description = "A commitizen plugin that combines gitmoji and conventional commits in a lightweight way."
 authors = [
   { name = "sasirven", email = "77392535+sasirven@users.noreply.github.com" }
